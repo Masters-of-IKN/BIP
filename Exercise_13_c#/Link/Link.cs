@@ -63,7 +63,7 @@ namespace Linklaget
 		/// </param>
 		public int receive (ref byte[] buf)
 		{
-	    	// TO DO Your own code
+	    	
 		}
 	}
 }

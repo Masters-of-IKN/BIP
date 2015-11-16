@@ -69,7 +69,7 @@ namespace Transportlaget
 					buf[(int)TransCHKSUM.TYPE] != (int)TransType.ACK)
 				return false;
 			
-			seqNo = [(int)TransCHKSUM.SEQNO] + 1) % 2;
+			seqNo = (byte)((buf[(int)TransCHKSUM.SEQNO] + 1) % 2);
 			
 			return true;
 		}
@@ -83,27 +83,44 @@ namespace Transportlaget
 		private void sendAck (bool ackType)
 		{
 			byte[] ackBuf = new byte[(int)TransSize.ACKSIZE];
-			ackBuf [(int)TransCHKSUM.SEQNO] = (byte)
-					(ackType ? (byte)(buffer (byte)buffer [(int)TransCHKSUM.SEQNO] : [(int)TransCHKSUM.SEQNO] + 1) % 2);
+			ackBuf [(int)TransCHKSUM.SEQNO] = 
+					(ackType ? buffer [(int)TransCHKSUM.SEQNO] : (byte)((buffer[(int)TransCHKSUM.SEQNO] + 1) % 2));
 			ackBuf [(int)TransCHKSUM.TYPE] = (byte)(int)TransType.ACK;
 			checksum.calcChecksum (ref ackBuf, (int)TransSize.ACKSIZE);
 
 			link.send(ackBuf, (int)TransSize.ACKSIZE);
 		}
 
-		/// <summary>
-		/// Send the specified buffer and size.
-		/// </summary>
-		/// <param name='buffer'>
-		/// Buffer.
-		/// </param>
-		/// <param name='size'>
-		/// Size.
-		/// </param>
-		public void send(byte[] buf, int size)
-		{
-			// TO DO Your own code
-		}
+	    /// <summary>
+	    /// Send the specified buffer and size.
+	    /// </summary>
+	    /// <param name='buf'>
+	    /// Buffer.
+	    /// </param>
+	    /// <param name='size'>
+	    /// Size.
+	    /// </param>
+	    public void send(byte[] buf, int size)
+	    {
+	        if (size <= 1000)
+	        {
+	            bool sendFinished;
+
+	            buffer[2] = seqNo;
+                buffer[3] = (int)TransType.DATA;
+                //Array(array to be copied, startIndex, Array to be copied to, Index to start copy to, length of array to copy)
+                Array.Copy(buf, 0, buffer, 4, buf.Length);
+
+                checksum.calcChecksum(ref buffer, size+4);
+
+	            do
+	            {
+	                link.send(buffer, size + 4);
+	                sendFinished = receiveAck();
+	            }
+                while (sendFinished == false);
+	        }
+        }
 
 		/// <summary>
 		/// Receive the specified buffer.
@@ -114,6 +131,20 @@ namespace Transportlaget
 		public int receive (ref byte[] buf)
 		{
 			// TO DO Your own code
+		    bool receiveFinished = false;
+            byte[] tempBuf = new byte[1004];
+		    int size;
+
+            do
+		    {
+                size = link.receive(ref tempBuf);
+		        receiveFinished = checksum.checkChecksum(tempBuf, size);
+		        sendAck(receiveFinished);
+		    }
+            while (receiveFinished == false);
+
+		    buf = tempBuf;
+		    return size;
 		}
 	}
 }
