@@ -69,7 +69,7 @@ namespace Transportlaget
 					buf[(int)TransCHKSUM.TYPE] != (int)TransType.ACK)
 				return false;
 			
-			seqNo = [(int)TransCHKSUM.SEQNO] + 1) % 2;
+			seqNo = ((int)TransCHKSUM.SEQNO + 1) % 2;
 			
 			return true;
 		}
