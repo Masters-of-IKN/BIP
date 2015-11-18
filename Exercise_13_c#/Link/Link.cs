@@ -58,6 +58,35 @@ namespace Linklaget
             serialPort.Write(buffer, 0, size + 2);
         }
 
+        /// <summary>
+        /// Receive the specified buf and size.
+        /// </summary>
+        /// <param name='buf'>
+        /// Buffer.
+        /// </param>
+        /// <param name='size'>
+        /// Size.
+        /// </param>
+        public int receive(ref byte[] buf)
+        {
+            int read = 0;
+
+            try {
+                read = serialPort.Read(buffer, 0, buffer.Length);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            if (read > 0)
+            {
+                int size = decode(buffer, ref buf);
+
+            }
+            return 0;
+        }
+
         private int encode(byte[] data, byte[] buffer, int size)
         {
             int pos = 1;
@@ -83,20 +112,38 @@ namespace Linklaget
             return pos;
         }
 
-        /// <summary>
-        /// Receive the specified buf and size.
-        /// </summary>
-        /// <param name='buf'>
-        /// Buffer.
-        /// </param>
-        /// <param name='size'>
-        /// Size.
-        /// </param>
-        public int receive(ref byte[] buf)
+        private int decode(byte[] data, ref byte[] output)
         {
-            // TO DO Your own code
+            List<byte> list = new List<byte>();
 
-            return 0;
+            for (int i = 1; i < data.Length-1; i++)
+            {
+                if (i < data.Length - 3)
+                {
+                    if (data[i] == 'B' && data[i + 1] == 'C')
+                    {
+                        list.Add((byte)'A');
+                        i++;
+                    }
+                    else if (data[i] == 'B' && data[i + 1] == 'D')
+                    {
+                        list.Add((byte)'B');
+                        i++;
+                    }
+                    else
+                    {
+                        list.Add(data[i]);
+                    }
+                }
+                else
+                {
+                    list.Add(data[i]);
+                }
+            }
+
+            output = list.ToArray();
+
+            return output.Length;
         }
     }
 }
