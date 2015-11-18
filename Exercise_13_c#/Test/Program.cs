@@ -11,8 +11,6 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            var link = new Link(1000);
-
             
         }
     }

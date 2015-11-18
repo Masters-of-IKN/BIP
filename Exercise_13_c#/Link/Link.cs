@@ -69,21 +69,24 @@ namespace Linklaget
         /// </param>
         public int receive(ref byte[] buf)
         {
-            int read = 0;
+            byte c;
+            int i = 0;
 
-            try {
-                read = serialPort.Read(buffer, 0, buffer.Length);
-            }
-            catch (Exception e)
+            do
             {
-                Console.WriteLine(e.Message);
-            }
+                c = (byte)serialPort.ReadByte();
+                buffer[i++] = c;
 
-            if (read > 0)
+            } while (c != 'A');
+
+            do
             {
-                int size = decode(buffer, ref buf);
+                c = (byte)serialPort.ReadByte();
+                buffer[i++] = c;
+            } while (c != 'A');
 
-            }
+            decode(ref buf, i + 1);
+
             return 0;
         }
 
@@ -112,32 +115,27 @@ namespace Linklaget
             return pos;
         }
 
-        private int decode(byte[] data, ref byte[] output)
+        private int decode(ref byte[] output, int size)
         {
             List<byte> list = new List<byte>();
 
-            for (int i = 1; i < data.Length-1; i++)
+            for (int i = 0; i < size; i++)
             {
-                if (i < data.Length - 3)
+                if (buffer[i] == 'A') continue;
+
+                if (buffer[i] == 'B' && buffer[i + 1] == 'C')
                 {
-                    if (data[i] == 'B' && data[i + 1] == 'C')
-                    {
-                        list.Add((byte)'A');
-                        i++;
-                    }
-                    else if (data[i] == 'B' && data[i + 1] == 'D')
-                    {
-                        list.Add((byte)'B');
-                        i++;
-                    }
-                    else
-                    {
-                        list.Add(data[i]);
-                    }
+                    list.Add((byte)'A');
+                    i++;
+                }
+                else if (buffer[i] == 'B' && buffer[i + 1] == 'D')
+                {
+                    list.Add((byte)'B');
+                    i++;
                 }
                 else
                 {
-                    list.Add(data[i]);
+                    list.Add(buffer[i]);
                 }
             }
 
