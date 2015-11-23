@@ -116,7 +116,7 @@ namespace Transportlaget
 
 	            do
 	            {
-	                link.send(buffer, size + 4);
+					link.send(buffer, size+4);
 	                sendFinished = receiveAck();
 	            }
                 while (sendFinished == false);
