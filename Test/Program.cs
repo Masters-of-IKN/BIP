@@ -1,5 +1,4 @@
 ﻿using Linklaget;
-using Transportlaget;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +11,11 @@ namespace Test
     {
         static void Main(string[] args)
         {
-			var transport = new Transport (1000);
-			var buffer = new Byte[1000];
+            var link = new Link(1000);
 
-			buffer = Encoding.ASCII.GetBytes("Kage");
-			transport.send(buffer, buffer.Length);
+			var ByteArray = Encoding.ASCII.GetBytes ("FALLOUTERAWESOME");
+
+			link.send (ByteArray, ByteArray.Length);
         }
     }
 }

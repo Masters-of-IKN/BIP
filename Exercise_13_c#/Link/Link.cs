@@ -74,7 +74,7 @@ namespace Linklaget
 
             do
             {
-                c = (byte)serialPort.ReadByte();
+				c = (byte)serialPort.ReadByte();
                 buffer[i++] = c;
 
             } while (c != 'A');
