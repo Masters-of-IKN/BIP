@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -53,14 +53,6 @@
     <ProjectReference Include="..\Link\Link.csproj">
       <Project>{6D10C85B-63E3-416B-A3B8-0E6498B7C1C1}</Project>
       <Name>Link</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LIB\LIB.csproj">
-      <Project>{D8DF9D64-4B60-4D4C-9782-733750DEA33B}</Project>
-      <Name>LIB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Transport\Transport.csproj">
-      <Project>{981C1C09-64A7-47CD-A093-30083CCFFD03}</Project>
-      <Name>Transport</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
