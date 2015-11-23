@@ -30,8 +30,6 @@ namespace Test
 				buffer = Encoding.ASCII.GetBytes ("kage");
 				transport.send (buffer, buffer.Length);
 			}
-
-
         }
     }
 }
