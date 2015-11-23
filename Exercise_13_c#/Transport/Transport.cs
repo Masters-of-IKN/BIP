@@ -1,5 +1,6 @@
 using System;
 using Linklaget;
+using System.Text;
 
 /// <summary>
 /// Transport.
@@ -109,7 +110,7 @@ namespace Transportlaget
 	            buffer[2] = seqNo;
                 buffer[3] = (int)TransType.DATA;
                 //Array(array to be copied, startIndex, Array to be copied to, Index to start copy to, length of array to copy)
-                Array.Copy(buf, 0, buffer, 4, buf.Length);
+				Array.Copy(buf, 0, buffer, 4, size);
 
                 checksum.calcChecksum(ref buffer, size+4);
 
@@ -138,12 +139,14 @@ namespace Transportlaget
             do
 		    {
                 size = link.receive(ref tempBuf);
-		        receiveFinished = checksum.checkChecksum(tempBuf, size);
+				receiveFinished = checksum.checkChecksum(tempBuf, size+2);
 		        sendAck(receiveFinished);
+				string text = Encoding.ASCII.GetString (tempBuf, 4, tempBuf.Length-4);
+				Console.WriteLine(text);
 		    }
             while (receiveFinished == false);
 
-		    buf = tempBuf;
+			Array.Copy (tempBuf, 4, buf, 0, size-4);
 		    return size;
 		}
 	}

@@ -27,7 +27,7 @@ namespace Transportlaget
 		{
 			byte[] buffer = new byte[size-2];
 
-			Array.Copy(buf, (int)TransSize.CHKSUMSIZE, buffer, 0, buffer.Length);
+			Array.Copy(buf, (int)TransSize.CHKSUMSIZE, buffer, 0, size-4);
 			return( checksum(buffer) == (long)(buf[(int)TransCHKSUM.CHKSUMHIGH] << 8 | buf[(int)TransCHKSUM.CHKSUMLOW]));
 		}
 

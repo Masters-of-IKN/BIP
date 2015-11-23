@@ -24,7 +24,7 @@ namespace Linklaget
         /// <summary>
         /// The serial port.
         /// </summary>
-        SerialPort serialPort;
+		SerialPort serialPort;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="link"/> class.
@@ -85,9 +85,9 @@ namespace Linklaget
                 buffer[i++] = c;
             } while (c != 'A');
 
-            decode(ref buf, i + 1);
+            decode(ref buf, i);
 
-            return 0;
+			return i-2;
         }
 
         private int encode(byte[] data, byte[] buffer, int size)
