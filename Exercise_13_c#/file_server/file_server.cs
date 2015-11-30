@@ -6,7 +6,7 @@ using Library;
 
 namespace Application
 {
-	class file_server
+	public class file_server
 	{
 		/// <summary>
 		/// The BUFSIZE
@@ -16,10 +16,25 @@ namespace Application
 		/// <summary>
 		/// Initializes a new instance of the <see cref="file_server"/> class.
 		/// </summary>
-		private file_server ()
+		public file_server ()
 		{
-			// TO DO Your own code
-		}
+			Console.WriteLine("Waiting for request");
+            var _tran = new Transport(BUFSIZE);
+
+            Byte[] bytes = new Byte[BUFSIZE];
+		    string data;
+
+            int i = _tran.receive(ref bytes);
+
+            data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+
+            Console.WriteLine("Received: {0}", data);
+
+		    if (File.Exists(data))
+		    {
+		        sendFile(data, data.Length, _tran);
+		    }
+        }
 
 		/// <summary>
 		/// Sends the file.
@@ -35,8 +50,23 @@ namespace Application
 		/// </param>
 		private void sendFile(String fileName, long fileSize, Transport transport)
 		{
-			// TO DO Your own code
-		}
+            var reader = new BinaryReader(File.Open(fileName, FileMode.Open));
+
+            int counter = 1;
+            byte[] array;
+
+            do
+            {
+                array = reader.ReadBytes(1000);
+                transport.send(array, array.Length);
+
+                Console.WriteLine("#{0} - {1} bytes", counter, array.Length);
+
+                counter++;
+            } while (array.Length > 0);
+
+            reader.Close();
+        }
 
 		/// <summary>
 		/// The entry point of the program, where the program control starts and ends.
