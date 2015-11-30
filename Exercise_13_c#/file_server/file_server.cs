@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.Design.Serialization;
 using System.IO;
 using System.Text;
 using Transportlaget;
@@ -27,6 +28,7 @@ namespace Application
             int i = _tran.receive(ref bytes);
 
             data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+		    //string filename = ((new UTF8Encoding()).GetString(bytes)).Substring(0, i);
 
             Console.WriteLine("Received: {0}", data);
 

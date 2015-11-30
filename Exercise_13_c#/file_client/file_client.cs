@@ -63,7 +63,7 @@ namespace Application
             // Translate the passed message into ASCII and store it as a Byte array.
             byte[] data = System.Text.Encoding.ASCII.GetBytes(fileName);
 
-            transport.send(data, BUFSIZE);
+            transport.send(data, data.Length);
 
             // Remove path from filename.
             string file = Path.GetFileName(fileName);
