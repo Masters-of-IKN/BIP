@@ -51,6 +51,7 @@ namespace Linklaget
         /// </param>
         public void send(byte[] buf, int size)
         {
+            Console.WriteLine("Link sending: {0}", Encoding.ASCII.GetString(buf));
             buffer[0] = (byte)'A';
             int pos = encode(buf, buffer, size);
             buffer[pos] = (byte)'A';
