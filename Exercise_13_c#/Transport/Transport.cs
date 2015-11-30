@@ -143,7 +143,7 @@ namespace Transportlaget
             do
 		    {
                 size = link.receive(ref tempBuf);
-				receiveFinished = checksum.checkChecksum(tempBuf, size+2);
+				receiveFinished = checksum.checkChecksum(tempBuf, size);
 		        sendAck(receiveFinished);
 				string text = Encoding.ASCII.GetString(tempBuf, 4, tempBuf.Length-4);
 				Console.WriteLine("Transport receive: {0}", text);
