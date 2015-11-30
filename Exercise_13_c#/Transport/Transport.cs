@@ -110,12 +110,16 @@ namespace Transportlaget
 	            buffer[2] = seqNo;
                 buffer[3] = (int)TransType.DATA;
                 //Array(array to be copied, startIndex, Array to be copied to, Index to start copy to, length of array to copy)
-				Array.Copy(buf, 0, buffer, 4, size);
+				for (int i = 4; (i - 4) < size; i++) {
+					buffer [i] = buf [i - 4];
+				}
+				//Array.Copy(buf, 0, buffer, 4, (size-1));
 
                 checksum.calcChecksum(ref buffer, size+4);
 
 	            do
 	            {
+					Console.WriteLine("Transport sending: {0}", Encoding.ASCII.GetString(buffer, 4, size));
 					link.send(buffer, size+4);
 	                sendFinished = receiveAck();
 	            }

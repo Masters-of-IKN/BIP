@@ -51,7 +51,7 @@ namespace Linklaget
         /// </param>
         public void send(byte[] buf, int size)
         {
-            Console.WriteLine("Link sending: {0}", Encoding.ASCII.GetString(buf));
+			Console.WriteLine("Link sending: {0}", Encoding.ASCII.GetString(buf, 0, size));
             buffer[0] = (byte)'A';
             int pos = encode(buf, buffer, size);
             buffer[pos] = (byte)'A';
@@ -97,6 +97,9 @@ namespace Linklaget
 
             foreach (byte ch in data)
             {
+				if (pos > size)
+					break;
+
                 if (ch == 'A')
                 {
                     buffer[pos++] = (byte)'B';
