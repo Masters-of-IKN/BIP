@@ -146,12 +146,16 @@ namespace Transportlaget
 				receiveFinished = checksum.checkChecksum(tempBuf, size+2);
 		        sendAck(receiveFinished);
 				string text = Encoding.ASCII.GetString(tempBuf, 4, tempBuf.Length-4);
-				Console.WriteLine(text);
+				Console.WriteLine("Transport receive: {0}", text);
 		    }
             while (receiveFinished == false);
 
-			Array.Copy (tempBuf, 4, buf, 0, size-4);
-		    return size;
+			//Array.Copy (tempBuf, 4, buf, 0, size-4);
+			for (int i = 4; (i - 4) < (size - 4); i++)
+			{
+				buf [i - 4] = tempBuf [i];
+			}
+		    return size-4;
 		}
 	}
 }
