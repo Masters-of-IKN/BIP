@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application;
+
 
 namespace Test
 {
@@ -12,6 +14,20 @@ namespace Test
     {
         static void Main(string[] args)
         {
+            bool client = true;
+
+            if (client)
+            {
+                var fC = new file_client(args);
+            }
+            else
+            {
+                var fS = new file_server();
+            }
+            Console.WriteLine("\n Press Enter to continue...");
+            Console.Read();
+
+            /*
 			//Vælge om der skal sendes eller modtages
 			var receive = true;
 
@@ -30,6 +46,7 @@ namespace Test
 				buffer = Encoding.ASCII.GetBytes ("kage");
 				transport.send (buffer, buffer.Length);
 			}
+            */
         }
     }
 }

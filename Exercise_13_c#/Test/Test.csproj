@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -50,6 +50,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\file_client\file_client.csproj">
+      <Project>{db485b50-5258-42f1-abc9-2774eee3360f}</Project>
+      <Name>file_client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\file_server\file_server.csproj">
+      <Project>{421bda4c-999d-4b14-b645-e15ba7136554}</Project>
+      <Name>file_server</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Link\Link.csproj">
       <Project>{6D10C85B-63E3-416B-A3B8-0E6498B7C1C1}</Project>
       <Name>Link</Name>
