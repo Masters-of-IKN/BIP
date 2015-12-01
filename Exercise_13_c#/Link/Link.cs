@@ -56,7 +56,7 @@ namespace Linklaget
             int pos = encode(buf, buffer, size);
             buffer[pos] = (byte)'A';
 
-            serialPort.Write(buffer, 0, size + 2);
+            serialPort.Write(buffer, 0, pos);
         }
 
         /// <summary>
