@@ -94,18 +94,23 @@ namespace Linklaget
         private int encode(byte[] data, byte[] buffer, int size)
         {
             int pos = 1;
+            int extra = 0;
 
             foreach (byte ch in data)
             {
+                if (pos > size + extra) break;
+
                 if (ch == 'A')
                 {
                     buffer[pos++] = (byte)'B';
                     buffer[pos++] = (byte)'C';
+                    extra++;
                 }
                 else if (ch == 'B')
                 {
                     buffer[pos++] = (byte)'B';
                     buffer[pos++] = (byte)'D';
+                    extra++;
                 }
                 else
                 {
