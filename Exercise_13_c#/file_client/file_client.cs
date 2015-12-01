@@ -91,6 +91,7 @@ namespace Application
 		/// </param>
 		public static void Main (string[] args)
 		{
+			args = args.Length > 0 ? args : new string[1] { "/home/dennis/Documents/happy.jpg" };
             new file_client(args);
 		}
 	}

@@ -86,9 +86,9 @@ namespace Linklaget
                 buffer[i++] = c;
             } while (c != 'A');
 
-            decode(ref buf, i);
+            int length = decode(ref buf, i);
 
-			return i-2;
+			return length;
         }
 
         private int encode(byte[] data, byte[] buffer, int size)
