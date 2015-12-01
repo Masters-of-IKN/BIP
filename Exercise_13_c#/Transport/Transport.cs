@@ -107,6 +107,8 @@ namespace Transportlaget
 	        {
 	            bool sendFinished;
 
+	            buffer = new byte[size + 4];
+
 	            buffer[2] = seqNo;
                 buffer[3] = (int)TransType.DATA;
                 //Array(array to be copied, startIndex, Array to be copied to, Index to start copy to, length of array to copy)
@@ -144,7 +146,7 @@ namespace Transportlaget
                 size = link.receive(ref buffer);
 				receiveFinished = checksum.checkChecksum(buffer, size);
 		        sendAck(receiveFinished);
-				string text = Encoding.ASCII.GetString(buffer, 4, buffer.Length);
+				string text = Encoding.ASCII.GetString(buffer, 4, buffer.Length-4);
 				Console.WriteLine("Transport receive: {0}", text);
 		    }
             while (receiveFinished == false);
@@ -155,7 +157,7 @@ namespace Transportlaget
 		        buf[i - 4] = buffer[i];
 		    }
 
-		    return size;
+		    return buf.Length;
 		}
 	}
 }
