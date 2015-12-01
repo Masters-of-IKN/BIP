@@ -4,7 +4,7 @@ namespace Transportlaget
 {
     public static class Arr
     {
-        public static void Copy(Array[] source, int sourceStart, Array[] dest, int destStart, int length)
+        public static void Copy(byte[] source, int sourceStart, byte[] dest, int destStart, int length)
         {
             for (int i = sourceStart; i < (length + sourceStart); i++)
             {
