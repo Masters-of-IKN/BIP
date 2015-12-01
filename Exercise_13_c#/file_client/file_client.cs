@@ -70,6 +70,7 @@ namespace Application
             // Create BinaryWriter to write the read data to a file.
             var writer = new BinaryWriter(File.Open(file, FileMode.Create));
             int i, counter = 1;
+            data = new byte[1000];
             do
             {
                 i = transport.receive(ref data);
