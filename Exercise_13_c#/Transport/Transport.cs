@@ -136,7 +136,7 @@ namespace Transportlaget
 		public int receive (ref byte[] buf)
 		{
 			// TO DO Your own code
-		    bool receiveFinished = false;
+		    bool receiveFinished;
 		    int size;
 
             do
@@ -149,11 +149,8 @@ namespace Transportlaget
 		    }
             while (receiveFinished == false);
 
-			//Array.Copy (tempBuf, 4, buf, 0, size-4);
-			for (int i = 4; (i - 4) < (size - 4); i++)
-			{
-				buf [i - 4] = buffer[i];
-			}
+		    buf = buffer;
+
 		    return size-4;
 		}
 	}
