@@ -97,9 +97,6 @@ namespace Linklaget
 
             foreach (byte ch in data)
             {
-				if (pos > size)
-					break;
-
                 if (ch == 'A')
                 {
                     buffer[pos++] = (byte)'B';
