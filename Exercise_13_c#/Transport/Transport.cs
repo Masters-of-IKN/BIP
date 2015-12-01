@@ -144,14 +144,18 @@ namespace Transportlaget
                 size = link.receive(ref buffer);
 				receiveFinished = checksum.checkChecksum(buffer, size);
 		        sendAck(receiveFinished);
-				string text = Encoding.ASCII.GetString(buffer, 4, buffer.Length-4);
+				string text = Encoding.ASCII.GetString(buffer, 4, buffer.Length);
 				Console.WriteLine("Transport receive: {0}", text);
 		    }
             while (receiveFinished == false);
 
-		    buf = buffer;
+            buf = new byte[buffer.Length-4];
+		    for (int i = 4; i < buffer.Length; i++)
+		    {
+		        buf[i - 4] = buffer[i];
+		    }
 
-		    return size-4;
+		    return size;
 		}
 	}
 }
