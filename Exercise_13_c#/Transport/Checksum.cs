@@ -2,18 +2,6 @@ using System;
 
 namespace Transportlaget
 {
-    public static class Arr
-    {
-        public static void Copy(byte[] source, int sourceStart, byte[] dest, int destStart, int length)
-        {
-            for (int i = sourceStart; i < (length + sourceStart); i++)
-            {
-                dest[destStart] = source[i];
-                destStart++;
-            }
-        }
-    }
-
 	public class Checksum
 	{
 		public Checksum ()
@@ -39,7 +27,11 @@ namespace Transportlaget
 		{
 			byte[] buffer = new byte[size-2];
 
-			Arr.Copy(buf, (int)TransSize.CHKSUMSIZE, buffer, 0, buffer.Length);
+			//Array.Copy(buf, (int)TransSize.CHKSUMSIZE, buffer, 0, buffer.Length);
+		    for (int i = (int) TransSize.CHKSUMSIZE; i < buffer.Length + (int) TransSize.CHKSUMSIZE; i++)
+		    {
+		        buffer[i - (int) TransSize.CHKSUMSIZE] = buf[i];
+		    }
 			return( checksum(buffer) == (long)(buf[(int)TransCHKSUM.CHKSUMHIGH] << 8 | buf[(int)TransCHKSUM.CHKSUMLOW]));
 		}
 
@@ -48,7 +40,11 @@ namespace Transportlaget
 			byte[] buffer = new byte[size-2];
 			long sum = 0;
 
-			Arr.Copy(buf, 2, buffer, 0, buffer.Length);
+			//Array.Copy(buf, 2, buffer, 0, buffer.Length);
+		    for (int i = (int) TransSize.CHKSUMSIZE; i < buffer.Length + 2; i++)
+		    {
+		        buffer[i - 2] = buf[i];
+		    }
 			sum = checksum(buffer);
 			buf[(int)TransCHKSUM.CHKSUMHIGH] = (byte)((sum >> 8) & 255);
 			buf[(int)TransCHKSUM.CHKSUMLOW] = (byte)(sum & 255);
