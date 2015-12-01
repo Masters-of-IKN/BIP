@@ -2,6 +2,18 @@ using System;
 
 namespace Transportlaget
 {
+    public static class Arr
+    {
+        public static void Copy(Array[] source, int sourceStart, Array[] dest, int destStart, int length)
+        {
+            for (int i = sourceStart; i < (length + sourceStart); i++)
+            {
+                dest[destStart] = source[i];
+                destStart++;
+            }
+        }
+    }
+
 	public class Checksum
 	{
 		public Checksum ()
