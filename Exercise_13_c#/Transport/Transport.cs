@@ -137,15 +137,14 @@ namespace Transportlaget
 		{
 			// TO DO Your own code
 		    bool receiveFinished = false;
-            byte[] tempBuf = new byte[1004];
 		    int size;
 
             do
 		    {
-                size = link.receive(ref tempBuf);
-				receiveFinished = checksum.checkChecksum(tempBuf, size);
+                size = link.receive(ref buffer);
+				receiveFinished = checksum.checkChecksum(buffer, size);
 		        sendAck(receiveFinished);
-				string text = Encoding.ASCII.GetString(tempBuf, 4, tempBuf.Length-4);
+				string text = Encoding.ASCII.GetString(buffer, 4, buffer.Length-4);
 				Console.WriteLine("Transport receive: {0}", text);
 		    }
             while (receiveFinished == false);
@@ -153,7 +152,7 @@ namespace Transportlaget
 			//Array.Copy (tempBuf, 4, buf, 0, size-4);
 			for (int i = 4; (i - 4) < (size - 4); i++)
 			{
-				buf [i - 4] = tempBuf [i];
+				buf [i - 4] = buffer[i];
 			}
 		    return size-4;
 		}
