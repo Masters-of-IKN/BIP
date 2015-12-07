@@ -62,7 +62,7 @@ namespace Application
                 array = reader.ReadBytes(1000);
                 transport.send(array, array.Length);
 
-                Console.WriteLine("#{0} - {1} bytes", counter, array.Length);
+                //Console.WriteLine("#{0} - {1} bytes", counter, array.Length);
 
                 counter++;
             } while (array.Length > 0);

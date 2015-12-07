@@ -40,6 +40,7 @@ namespace Transportlaget
 		/// The DEFAULT_SEQNO.
 		/// </summary>
 		private const int DEFAULT_SEQNO = 2;
+		private int counter = 0;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Transport"/> class.
@@ -65,11 +66,13 @@ namespace Transportlaget
 			byte[] buf = new byte[(int)TransSize.ACKSIZE];
 			int size = link.receive(ref buf);
 			if (size != (int)TransSize.ACKSIZE) return false;
-			if(!checksum.checkChecksum(buf, (int)TransSize.ACKSIZE) ||
-					buf[(int)TransCHKSUM.SEQNO] != seqNo ||
-					buf[(int)TransCHKSUM.TYPE] != (int)TransType.ACK)
+			if (!checksum.checkChecksum (buf, (int)TransSize.ACKSIZE) ||
+			   buf [(int)TransCHKSUM.SEQNO] != seqNo ||
+			   buf [(int)TransCHKSUM.TYPE] != (int)TransType.ACK) {
+				Console.WriteLine ("Received negative ACK (NACK)!");
 				return false;
-			
+			}
+
 			seqNo = (byte)((buf[(int)TransCHKSUM.SEQNO] + 1) % 2);
 			
 			return true;
@@ -119,9 +122,18 @@ namespace Transportlaget
 
                 checksum.calcChecksum(ref buffer, size+4);
 
+				errorCount++;
+				counter++;
 	            do
 	            {
-					Console.WriteLine("Transport sending: {0}", Encoding.ASCII.GetString(buffer, 4, size));
+					Console.WriteLine("Transport sending packet #{0}", counter);
+					if (errorCount == 5) {
+						buffer[0]++;
+						errorCount++;
+					}
+					else if (errorCount == 6) {
+						buffer[0]--;
+					}
 					link.send(buffer, size+4);
 	                sendFinished = receiveAck();
 	            }
@@ -146,8 +158,8 @@ namespace Transportlaget
                 size = link.receive(ref buffer);
 				receiveFinished = checksum.checkChecksum(buffer, size);
 		        sendAck(receiveFinished);
-				string text = Encoding.ASCII.GetString(buffer, 4, buffer.Length-4);
-				Console.WriteLine("Transport receive: {0}", text);
+				//string text = Encoding.ASCII.GetString(buffer, 4, buffer.Length-4);
+				//Console.WriteLine("Transport receive: {0}", text);
 		    }
             while (receiveFinished == false);
 
